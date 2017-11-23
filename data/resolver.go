@@ -1,7 +1,7 @@
 package data
 
 import (
-    "github.com/ricardosierra/goql-boilerplate/data/user"
+    "github.com/ricardosierra/bilo-api/data/user"
 )
 
 type Resolver struct{}

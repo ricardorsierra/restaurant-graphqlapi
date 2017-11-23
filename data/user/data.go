@@ -3,7 +3,7 @@ package user
 import (
     "fmt"
     "golang.org/x/crypto/bcrypt"
-    "github.com/ricardosierra/goql-boilerplate/data/db"
+    "github.com/ricardosierra/bilo-api/data/db"
 )
 var tableName = "users";
 
