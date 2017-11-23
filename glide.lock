@@ -1,6 +1,8 @@
 hash: 586242981649401d5988fb39611a4d7028093d5bfdc9a5b56fdb7f7d2a26fada
-updated: 2017-01-02T14:12:05.771311355Z
+updated: 2017-11-23T15:34:29.10609908-02:00
 imports:
+- name: github.com/go-sql-driver/mysql
+  version: cd4cb909ce1a31435164be29bf3682031f61539a
 - name: github.com/graphql-go/graphql
   version: a5cf5f205dfd1cec7d9c7a5e94f5f2084faf47bc
   subpackages:
@@ -18,4 +20,8 @@ imports:
   version: 8fd7f25955530b92e73e9e1932a41b522b22ccd9
   subpackages:
   - context
+- name: google.golang.org/appengine
+  version: 9d8544a6b2c7df9cff240fcf92d7b2f59bc13416
+  subpackages:
+  - cloudsql
 testImports: []

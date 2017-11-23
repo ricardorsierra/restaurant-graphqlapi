@@ -10,7 +10,6 @@ func InsertUser(user *User) error {
 	err := db.QueryRow(`
 		INSERT INTO users(email)
 		VALUES ($1)
-		RETURNING id
 	`, user.Email).Scan(&id)
 	if err != nil {
 		return err
