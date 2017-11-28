@@ -1,4 +1,10 @@
-package: learn/graphql-go-example
+package: bilo-api
 import:
 - package: github.com/graphql-go/graphql
-  version: v0.4.18
+  version: ^0.6.0
+- package: github.com/graphql-go/graphql-go-handler
+- package: gopkg.in/mgo.v2
+- package: github.com/dgrijalva/jwt-go
+  version: ^3.0.0
+- package: github.com/Sirupsen/logrus
+  version: ^0.11.5

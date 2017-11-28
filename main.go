@@ -1,49 +1,41 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"github.com/graphql-go/graphql"
+	"github.com/ricardorsierra/bilo-api/helpers"
+	"github.com/ricardorsierra/bilo-api/helpers/database"
+	"github.com/ricardorsierra/bilo-api/modules"
 
-	// Database and yours Drives
-	"database/sql"
-	// _ "github.com/lib/pq"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/graphql-go/graphql"
+	gqlhandler "github.com/graphql-go/graphql-go-handler"
 )
 
-func handler(schema graphql.Schema) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		query, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		result := graphql.Do(graphql.Params{
-			Schema:        schema,
-			RequestString: string(query),
-		})
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(result)
-	}
-}
-
-var db *sql.DB
+var schema, _ = graphql.NewSchema(graphql.SchemaConfig{
+	Query:    modules.QueryType,
+	Mutation: modules.MutationType,
+})
 
 func main() {
-	schema, err := graphql.NewSchema(graphql.SchemaConfig{
-		Query:    QueryType,
-		Mutation: MutationType,
+	port := helpers.GetENVorDefault("PORT", "8000")
+
+	database.StartDB()
+	defer database.CloseDB()
+
+	// create a graphql-go HTTP handler with our previously defined schema
+	// and we also set it to return pretty JSON output
+	h := gqlhandler.New(&gqlhandler.Config{
+		Schema: &schema,
+		Pretty: true,
 	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	db, err = sql.Open("mysql", "bilo:GhyY3jGM33Xg1020@tcp(bilo.ciwggvxnyly2.sa-east-1.rds.amazonaws.com:3306)/bilo-backend_production")
-	if err != nil {
-		log.Fatal(err)
-	}
-	http.Handle("/graphql", handler(schema))
-	log.Fatal(http.ListenAndServe("0.0.0.0:8081", nil))
+
+	// static file server to serve Graphiql in-browser editor
+	fs := http.FileServer(http.Dir("static"))
+
+	// serve a GraphQL endpoint at `/graphql`
+	http.Handle("/graphql", h)
+
+	http.Handle("/", fs)
+
+	// and serve!
+	http.ListenAndServe(":"+port, nil)
 }
