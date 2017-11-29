@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/bank_account/types"
 
@@ -30,14 +29,6 @@ var CreateBankAccountResolver = func(params graphql.ResolveParams) (interface{},
 		Email:    newBankAccount["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(bankAccount)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	bankAccount.Token = tokenString
 
 	if err := models.BankAccountCollection().Insert(bankAccount); err != nil {
 		if mgo.IsDup(err) {

@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/notification/types"
 
@@ -30,14 +29,6 @@ var CreateNotificationResolver = func(params graphql.ResolveParams) (interface{}
 		Email:    newNotification["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(notification)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	notification.Token = tokenString
 
 	if err := models.NotificationCollection().Insert(notification); err != nil {
 		if mgo.IsDup(err) {

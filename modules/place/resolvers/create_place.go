@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/place/types"
 
@@ -30,14 +29,6 @@ var CreatePlaceResolver = func(params graphql.ResolveParams) (interface{}, error
 		Email:    newPlace["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(place)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	place.Token = tokenString
 
 	if err := models.PlaceCollection().Insert(place); err != nil {
 		if mgo.IsDup(err) {

@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/bilo_code/types"
 
@@ -30,14 +29,6 @@ var CreateBiloCodeResolver = func(params graphql.ResolveParams) (interface{}, er
 		Email:    newBiloCode["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(biloCode)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	biloCode.Token = tokenString
 
 	if err := models.BiloCodeCollection().Insert(biloCode); err != nil {
 		if mgo.IsDup(err) {

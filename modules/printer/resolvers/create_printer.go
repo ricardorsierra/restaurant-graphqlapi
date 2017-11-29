@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/printer/types"
 
@@ -30,14 +29,6 @@ var CreatePrinterResolver = func(params graphql.ResolveParams) (interface{}, err
 		Email:    newPrinter["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(printer)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	printer.Token = tokenString
 
 	if err := models.PrinterCollection().Insert(printer); err != nil {
 		if mgo.IsDup(err) {

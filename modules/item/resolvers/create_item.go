@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/item/types"
 
@@ -30,14 +29,6 @@ var CreateItemResolver = func(params graphql.ResolveParams) (interface{}, error)
 		Email:    newItem["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(item)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	item.Token = tokenString
 
 	if err := models.ItemCollection().Insert(item); err != nil {
 		if mgo.IsDup(err) {

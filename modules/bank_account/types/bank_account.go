@@ -8,9 +8,9 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-// UserType is the graphql user type
-var UserType = graphql.NewObject(graphql.ObjectConfig{
-	Name: "User",
+// BankAccountType is the graphql bankAccount type
+var BankAccountType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "BankAccount",
 	Fields: graphql.Fields{
 		"_id": &graphql.Field{
 			Type: graphql.String,
@@ -27,9 +27,9 @@ var UserType = graphql.NewObject(graphql.ObjectConfig{
 	},
 })
 
-// CreatedUser is the graphql user type with token and without posts
-var CreatedUser = graphql.NewObject(graphql.ObjectConfig{
-	Name: "CreatedUser",
+// CreatedBankAccount is the graphql bankAccount type with token and without posts
+var CreatedBankAccount = graphql.NewObject(graphql.ObjectConfig{
+	Name: "CreatedBankAccount",
 	Fields: graphql.Fields{
 		"_id": &graphql.Field{
 			Type: graphql.String,
@@ -46,9 +46,9 @@ var CreatedUser = graphql.NewObject(graphql.ObjectConfig{
 	},
 })
 
-// UserInputType is the graphql input post type
-var UserInputType = graphql.NewInputObject(graphql.InputObjectConfig{
-	Name: "UserInput",
+// BankAccountInputType is the graphql input post type
+var BankAccountInputType = graphql.NewInputObject(graphql.InputObjectConfig{
+	Name: "BankAccountInput",
 	Fields: graphql.InputObjectConfigFieldMap{
 		"name": &graphql.InputObjectFieldConfig{
 			Type: graphql.NewNonNull(graphql.String),
@@ -62,8 +62,8 @@ var UserInputType = graphql.NewInputObject(graphql.InputObjectConfig{
 	},
 })
 
-// User is the user type
-type User struct {
+// BankAccount is the bankAccount type
+type BankAccount struct {
 	ID       bson.ObjectId `json:"_id" bson:"_id"`
 	Name     string        `json:"name" bson:"name"`
 	Email    string        `json:"email" bson:"email"`

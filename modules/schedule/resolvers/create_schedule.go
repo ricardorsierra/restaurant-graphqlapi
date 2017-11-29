@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/schedule/types"
 
@@ -30,14 +29,6 @@ var CreateScheduleResolver = func(params graphql.ResolveParams) (interface{}, er
 		Email:    newSchedule["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(schedule)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	schedule.Token = tokenString
 
 	if err := models.ScheduleCollection().Insert(schedule); err != nil {
 		if mgo.IsDup(err) {

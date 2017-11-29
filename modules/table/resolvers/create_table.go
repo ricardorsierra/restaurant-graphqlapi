@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/table/types"
 
@@ -30,14 +29,6 @@ var CreateTableResolver = func(params graphql.ResolveParams) (interface{}, error
 		Email:    newTable["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(table)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	table.Token = tokenString
 
 	if err := models.TableCollection().Insert(table); err != nil {
 		if mgo.IsDup(err) {

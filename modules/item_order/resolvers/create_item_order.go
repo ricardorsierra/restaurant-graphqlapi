@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/item_order/types"
 
@@ -30,14 +29,6 @@ var CreateItemOrderResolver = func(params graphql.ResolveParams) (interface{}, e
 		Email:    newItemOrder["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(itemOrder)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	itemOrder.Token = tokenString
 
 	if err := models.ItemOrderCollection().Insert(itemOrder); err != nil {
 		if mgo.IsDup(err) {

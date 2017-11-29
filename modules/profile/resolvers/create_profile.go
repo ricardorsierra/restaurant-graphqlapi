@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/profile/types"
 
@@ -31,13 +30,13 @@ var CreateProfileResolver = func(params graphql.ResolveParams) (interface{}, err
 		Password: pass,
 	}
 
-	tokenString, err := auth.CreateToken(profile)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	profile.Token = tokenString
+	//tokenString, err := auth.CreateToken(profile)
+	//if err != nil {
+	//	log.Fatal(err)
+	//	return nil, fmt.Errorf("SYSTEM ERROR")
+	//}
+	//
+	//profile.Token = tokenString
 
 	if err := models.ProfileCollection().Insert(profile); err != nil {
 		if mgo.IsDup(err) {

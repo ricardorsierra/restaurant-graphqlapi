@@ -3,7 +3,6 @@ package resolvers
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/ricardorsierra/bilo-api/helpers/auth"
 	"github.com/ricardorsierra/bilo-api/models"
 	"github.com/ricardorsierra/bilo-api/modules/credit_card/types"
 
@@ -30,14 +29,6 @@ var CreateCreditCardResolver = func(params graphql.ResolveParams) (interface{}, 
 		Email:    newCreditCard["email"].(string),
 		Password: pass,
 	}
-
-	tokenString, err := auth.CreateToken(creditCard)
-	if err != nil {
-		log.Fatal(err)
-		return nil, fmt.Errorf("SYSTEM ERROR")
-	}
-
-	creditCard.Token = tokenString
 
 	if err := models.CreditCardCollection().Insert(creditCard); err != nil {
 		if mgo.IsDup(err) {
