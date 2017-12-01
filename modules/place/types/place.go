@@ -34,10 +34,22 @@ var CreatedPlace = graphql.NewObject(graphql.ObjectConfig{
 		"_id": &graphql.Field{
 			Type: graphql.String,
 		},
-		"name": &graphql.Field{
+		"place_name": &graphql.Field{
+			Type: graphql.String,
+		},
+		"description": &graphql.Field{
 			Type: graphql.String,
 		},
 		"email": &graphql.Field{
+			Type: graphql.String,
+		},
+		"cep": &graphql.Field{
+			Type: graphql.String,
+		},
+		"number": &graphql.Field{
+			Type: graphql.String,
+		},
+		"telephone": &graphql.Field{
 			Type: graphql.String,
 		},
 		"token": &graphql.Field{
@@ -50,7 +62,10 @@ var CreatedPlace = graphql.NewObject(graphql.ObjectConfig{
 var PlaceInputType = graphql.NewInputObject(graphql.InputObjectConfig{
 	Name: "PlaceInput",
 	Fields: graphql.InputObjectConfigFieldMap{
-		"name": &graphql.InputObjectFieldConfig{
+		"place_name": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"description": &graphql.InputObjectFieldConfig{
 			Type: graphql.NewNonNull(graphql.String),
 		},
 		"email": &graphql.InputObjectFieldConfig{
@@ -59,15 +74,28 @@ var PlaceInputType = graphql.NewInputObject(graphql.InputObjectConfig{
 		"password": &graphql.InputObjectFieldConfig{
 			Type: graphql.NewNonNull(graphql.String),
 		},
+		"cep": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"number": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"telephone": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
 	},
 })
 
 // Place is the place type
 type Place struct {
-	ID       bson.ObjectId `json:"_id" bson:"_id"`
-	Name     string        `json:"name" bson:"name"`
-	Email    string        `json:"email" bson:"email"`
-	Password string        `json:"-" bson:"password"`
-	Posts    types.Post    `json:"posts" bson:"-"`
-	Token    string        `json:"token" bson:"-"`
+	ID       	bson.ObjectId `json:"_id" bson:"_id"`
+	PlaceName   string   	  `json:"place_name" bson:"place_name"`
+	Description string        `json:"description" bson:"description"`
+	Email    	string        `json:"email" bson:"email"`
+	Password 	string        `json:"password" bson:"password"`
+	UrlTickets  string 		  `json:"url_tickets" bson:"url_tickets"`
+	Cep  		string 		  `json:"cep" bson:"cep"`
+	Number  	string 		  `json:"number" bson:"number"`
+	Telephone   string 		  `json:"telephone" bson:"telephone"`
+	Token    	string        `json:"token" bson:"-"`
 }

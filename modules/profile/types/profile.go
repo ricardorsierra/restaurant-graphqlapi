@@ -8,9 +8,9 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-// UserType is the graphql user type
-var UserType = graphql.NewObject(graphql.ObjectConfig{
-	Name: "User",
+// ProfileType is the graphql profile type
+var ProfileType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "Profile",
 	Fields: graphql.Fields{
 		"_id": &graphql.Field{
 			Type: graphql.String,
@@ -27,9 +27,9 @@ var UserType = graphql.NewObject(graphql.ObjectConfig{
 	},
 })
 
-// CreatedUser is the graphql user type with token and without posts
-var CreatedUser = graphql.NewObject(graphql.ObjectConfig{
-	Name: "CreatedUser",
+// CreatedProfile is the graphql profile type with token and without posts
+var CreatedProfile = graphql.NewObject(graphql.ObjectConfig{
+	Name: "CreatedProfile",
 	Fields: graphql.Fields{
 		"_id": &graphql.Field{
 			Type: graphql.String,
@@ -46,9 +46,9 @@ var CreatedUser = graphql.NewObject(graphql.ObjectConfig{
 	},
 })
 
-// UserInputType is the graphql input post type
-var UserInputType = graphql.NewInputObject(graphql.InputObjectConfig{
-	Name: "UserInput",
+// ProfileInputType is the graphql input post type
+var ProfileInputType = graphql.NewInputObject(graphql.InputObjectConfig{
+	Name: "ProfileInput",
 	Fields: graphql.InputObjectConfigFieldMap{
 		"name": &graphql.InputObjectFieldConfig{
 			Type: graphql.NewNonNull(graphql.String),
@@ -62,8 +62,8 @@ var UserInputType = graphql.NewInputObject(graphql.InputObjectConfig{
 	},
 })
 
-// User is the user type
-type User struct {
+// Profile is the profile type
+type Profile struct {
 	ID       bson.ObjectId `json:"_id" bson:"_id"`
 	Name     string        `json:"name" bson:"name"`
 	Email    string        `json:"email" bson:"email"`
